@@ -63,31 +63,6 @@ docker compose down                  # stop + remove containers (keeps DB volume
 docker compose down -v               # stop + remove containers AND delete all DB data
 ```
 
-## Test in Docker
-
-Backend tests use an in-memory H2 database, so they need no MySQL container:
-
-```bash
-cd backend/MNP
-docker run --rm -v "$PWD:/app" -w /app eclipse-temurin:17-jdk-alpine \
-  sh -c "chmod +x mvnw && ./mvnw -B test"
-```
-
-Frontend unit tests run on Karma and need a Chrome binary, so they use a
-Chrome-ready Node image (no local Chrome/Node required):
-
-```bash
-cd frontend
-docker run --rm -v "$PWD:/app" -w /app trion/ng-cli-karma \
-  sh -c "npm ci && npx ng test --watch=false --browsers=ChromeHeadless"
-```
-
-A containerized production-build check (same `ng build` the frontend image runs):
-
-```bash
-cd frontend
-docker build .
-```
 
 ## Versioning
 
