@@ -1,0 +1,35 @@
+@if (isAccepted()) {
+  <div class="ported">
+    <span class="role">Donor</span>
+    <span class="role"></span>
+    <span class="role">Recipient</span>
+
+    <span class="dot" aria-hidden="true"></span>
+    <span class="ported__line" aria-hidden="true"></span>
+    <span class="dot dot--ported" aria-hidden="true"></span>
+
+    <span class="name">{{ request().donorOperator }}</span>
+    <span class="name"></span>
+    <span class="name name--ported">{{ request().recipientOperator }}</span>
+  </div>
+} @else {
+  <div class="docket">
+    <span class="role role--recipient">Recipient</span>
+    <span class="role"></span>
+    <span class="role role--system">System</span>
+    <span class="role"></span>
+    <span class="role role--donor">Donor</span>
+
+    <span class="dot dot--recipient" aria-hidden="true"></span>
+    <span class="segment" [class]="'segment--' + systemState()" aria-hidden="true"></span>
+    <span class="dot dot--system" [class]="'dot--' + systemState()" aria-hidden="true"></span>
+    <span class="segment" [class]="'segment--' + donorState()" aria-hidden="true"></span>
+    <span class="dot dot--donor" [class]="'dot--' + donorState()" aria-hidden="true"></span>
+
+    <span class="name name--recipient">{{ request().recipientOperator }}</span>
+    <span class="name"></span>
+    <span class="name name--system">MNP</span>
+    <span class="name"></span>
+    <span class="name name--donor" [class]="'name--' + donorState()">{{ request().donorOperator }}</span>
+  </div>
+}

@@ -1,0 +1,138 @@
+// Signal & Switch — global design tokens and resets.
+// Self-hosted IBM Plex, not a CDN link: the closest installed font is a failure,
+// not a fallback.
+@use '@fontsource/ibm-plex-sans/400.css' as sans-400;
+@use '@fontsource/ibm-plex-sans/500.css' as sans-500;
+@use '@fontsource/ibm-plex-sans/600.css' as sans-600;
+@use '@fontsource/ibm-plex-mono/400.css' as mono-400;
+@use '@fontsource/ibm-plex-mono/500.css' as mono-500;
+
+:root {
+  // Ground
+  --bg: #0a0e13;
+  --bg-raised: #10161d;
+  --bg-sunken: #060809;
+  --hairline: rgba(255, 255, 255, 0.09);
+  --hairline-strong: rgba(255, 255, 255, 0.16);
+
+  // Text
+  --text-primary: #e9edf1;
+  --text-secondary: #9aa5b1;
+  --text-tertiary: #7a8492; // lightened from #6b7684 — that was 4.19:1 on --bg, under the 4.5:1 floor
+  --ghost: #454f5b; // decorative/unlit fills only, never body text
+
+  // Accent — the one warm signal in an otherwise cold, dim world
+  --accent: #ff9a44;
+  --accent-strong: #ffc084;
+  --accent-glow: rgba(255, 154, 68, 0.38);
+
+  // Status language — shape differs as well as color; never color-only
+  --status-pending: var(--text-secondary);
+  --status-accepted: var(--accent);
+  --status-accepted-glow: var(--accent-glow);
+  --status-rejected: #d1665f;
+  --status-canceled: #a67b52; // lightened from #8a6142 — that was 3.57:1 on --bg, under the 4.5:1 floor
+  // Completed port direction (docket's accepted view) — green reads as
+  // "moved" against the otherwise warm/neutral status language.
+  --status-ported: #54d977;
+  --status-ported-glow: rgba(84, 217, 119, 0.38);
+
+  // Type
+  --font-sans: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  // Rhythm
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+
+  // The fine bronze mesh: a background the eye reads as instrument-panel
+  // texture. (Was 0.05 alpha — invisible in practice, not "faint": bumped
+  // until it actually registers on screen.)
+  background-image:
+    radial-gradient(rgba(199, 148, 90, 0.16) 0.8px, transparent 0.8px);
+  background-size: 16px 16px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button,
+input {
+  font-family: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+// Browser surfaces carry the design too — the cheapest signal a page was
+// built rather than assembled.
+::selection {
+  background: var(--accent);
+  color: #1a0f04;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ghost) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--ghost);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+// Tabular numerals wherever numbers line up in a column.
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}

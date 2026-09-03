@@ -1,0 +1,142 @@
+<section class="panel">
+  <div class="head">
+    <div>
+      <h1>Requests</h1>
+      <p class="lede">
+        Visible to <strong>{{ operatorService.active().name }}</strong> — every request they're party to,
+        plus every request already accepted.
+        @if (totalElements() > 0) {
+          <span class="mono muted">({{ totalElements() }} total)</span>
+        }
+      </p>
+    </div>
+    <button class="refresh" type="button" (click)="load()" [disabled]="loading()">
+      <app-icon name="refresh" />
+      Refresh
+    </button>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="outcome outcome--error">{{ errorMessage() }}</div>
+  } @else if (loading()) {
+    <p class="status-line">Loading requests…</p>
+  } @else if (requests().length === 0) {
+    <div class="empty">
+      <p>No requests visible to {{ operatorService.active().name }} yet.</p>
+      <a routerLink="/new">Submit one →</a>
+    </div>
+  } @else {
+    <!-- Desktop: a real table — screen readers and column scanning both want it. -->
+    <table class="ledger ledger--wide">
+      <thead>
+        <tr>
+          <th>Number</th>
+          <th>Recipient</th>
+          <th>Donor</th>
+          <th>Status</th>
+          <th>Opened</th>
+          <th class="ledger__expand-col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (request of requests(); track request.id) {
+          <tr class="ledger__row" (click)="toggleExpand(request.id)">
+            <td class="mono">{{ request.phoneNumber }}</td>
+            <td>{{ request.recipientOperator }}</td>
+            <td>{{ request.donorOperator }}</td>
+            <td>
+              <app-status-glyph [status]="request.status" />
+              @if (request.status === 'PENDING') {
+                <span class="countdown mono" [class.countdown--urgent]="isUrgent(request)">
+                  {{ formatCountdown(remainingMs(request)) }}
+                </span>
+              }
+            </td>
+            <td class="mono muted">{{ formatTime(request.createdAt) }}</td>
+            <td class="ledger__expand-col">
+              <app-icon name="chevron-down" [class.is-open]="expandedId() === request.id" />
+            </td>
+          </tr>
+          @if (expandedId() === request.id) {
+            <tr class="ledger__detail">
+              <td colspan="6"><ng-container [ngTemplateOutlet]="detail" [ngTemplateOutletContext]="{ $implicit: request }" /></td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+
+    <!-- Mobile: labeled rows, not a squeezed table — each field keeps its name. -->
+    <div class="ledger ledger--narrow">
+      @for (request of requests(); track request.id) {
+        <div class="row" (click)="toggleExpand(request.id)">
+          <div class="row__head">
+            <span class="mono row__number">{{ request.phoneNumber }}</span>
+            <app-icon name="chevron-down" [class.is-open]="expandedId() === request.id" />
+          </div>
+          <div class="row__line">
+            <span>{{ request.recipientOperator }}</span>
+            <app-icon name="arrow-right" />
+            <span>{{ request.donorOperator }}</span>
+          </div>
+          <div class="row__line">
+            <app-status-glyph [status]="request.status" />
+            @if (request.status === 'PENDING') {
+              <span class="countdown mono" [class.countdown--urgent]="isUrgent(request)">
+                {{ formatCountdown(remainingMs(request)) }}
+              </span>
+            }
+            <span class="mono muted">{{ formatTime(request.createdAt) }}</span>
+          </div>
+          @if (expandedId() === request.id) {
+            <div class="row__detail" (click)="$event.stopPropagation()">
+              <ng-container [ngTemplateOutlet]="detail" [ngTemplateOutletContext]="{ $implicit: request }" />
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    @if (totalPages() > 1) {
+      <nav class="pagination" aria-label="Requests pages">
+        <button type="button" [disabled]="page() === 0" (click)="goToPage(page() - 1)">
+          <app-icon name="arrow-right" class="pagination__prev" />
+          Prev
+        </button>
+        <span class="pagination__status mono">Page {{ page() + 1 }} of {{ totalPages() }}</span>
+        <button type="button" [disabled]="page() >= totalPages() - 1" (click)="goToPage(page() + 1)">
+          Next
+          <app-icon name="arrow-right" />
+        </button>
+      </nav>
+    }
+  }
+</section>
+
+<ng-template #detail let-request>
+  <app-docket [request]="request" />
+  @if (request.status === 'PENDING') {
+    <div class="countdown-banner" [class.countdown-banner--urgent]="isUrgent(request)">
+      Auto-cancels in <span class="mono">{{ formatCountdown(remainingMs(request)) }}</span>
+      if the donor doesn't respond.
+    </div>
+  }
+  <div class="detail-meta">
+    <span>Updated {{ formatTime(request.updatedAt) }}</span>
+    @if (request.resolvedAt) {
+      <span>Resolved {{ formatTime(request.resolvedAt) }}</span>
+    }
+  </div>
+  @if (canDecide(request)) {
+    <div class="decide" (click)="$event.stopPropagation()">
+      <button class="decide__accept" type="button" [disabled]="isActing(request.id)" (click)="accept(request)">
+        <app-icon name="check" />
+        Accept
+      </button>
+      <button class="decide__reject" type="button" [disabled]="isActing(request.id)" (click)="reject(request)">
+        <app-icon name="x" />
+        Reject
+      </button>
+    </div>
+  }
+</ng-template>

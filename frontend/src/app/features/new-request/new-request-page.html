@@ -1,0 +1,54 @@
+<section class="panel">
+  <h1>New Porting Request</h1>
+  <p class="lede">
+    Submitting as <strong>{{ operatorService.active().name }}</strong> — the Recipient on this request.
+    The current holder of the number becomes the Donor automatically.
+  </p>
+
+  <form class="form" (submit)="$event.preventDefault(); submit()">
+    <label class="field">
+      <span class="field__label">Phone number</span>
+      <input
+        class="field__input mono"
+        type="text"
+        inputmode="numeric"
+        placeholder="01XXXXXXXXX"
+        maxlength="11"
+        [value]="phoneNumber()"
+        (input)="onInput($any($event.target).value)"
+        (blur)="touched.set(true)"
+        [attr.aria-invalid]="showValidationHint()"
+      />
+      @if (showValidationHint()) {
+        <span class="field__hint">Enter a valid Egyptian mobile number (010/011/012 + 8 digits).</span>
+      }
+    </label>
+
+    <button class="submit" type="submit" [disabled]="submitting()">
+      @if (submitting()) {
+        Submitting…
+      } @else {
+        Submit Request
+        <app-icon name="arrow-right" />
+      }
+    </button>
+  </form>
+
+  @if (errorMessage()) {
+    <div class="outcome outcome--error">{{ errorMessage() }}</div>
+  }
+
+  @if (created(); as request) {
+    <div class="outcome outcome--success">
+      <div class="outcome__row">
+        <span class="mono">{{ request.phoneNumber }}</span>
+        <app-status-glyph [status]="request.status" />
+      </div>
+      <p>
+        Request opened: <strong>{{ request.recipientOperator }}</strong> is requesting this number from
+        <strong>{{ request.donorOperator }}</strong>.
+      </p>
+      <a routerLink="/requests">View in Requests →</a>
+    </div>
+  }
+</section>

@@ -1,0 +1,25 @@
+<div class="shell">
+  <header class="bar">
+    <div class="bar__mark">
+      <span class="bar__mark-dot" aria-hidden="true"></span>
+      MNP <span class="bar__mark-sub">/ Signal</span>
+    </div>
+
+    <nav class="bar__nav" aria-label="Primary">
+      <a routerLink="/requests" routerLinkActive="is-active">Requests</a>
+      <a routerLink="/new" routerLinkActive="is-active">
+        <app-icon name="plus" />
+        New Request
+      </a>
+      <a routerLink="/lookup" routerLinkActive="is-active">Number Lookup</a>
+    </nav>
+
+    <app-operator-switch />
+  </header>
+
+  <main class="content">
+    <router-outlet />
+  </main>
+</div>
+
+<app-notifications />

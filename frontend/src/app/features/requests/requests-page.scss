@@ -1,0 +1,319 @@
+.panel {
+  max-width: 56rem;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: var(--space-8);
+  gap: var(--space-4);
+}
+
+h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.lede {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+
+  strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+}
+
+.refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: 1px solid var(--hairline-strong);
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.82rem;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    color: var(--text-primary);
+    border-color: var(--text-tertiary);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.status-line {
+  color: var(--text-tertiary);
+  font-size: 0.88rem;
+}
+
+.empty {
+  padding: var(--space-8) 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+
+  a {
+    display: inline-block;
+    margin-top: var(--space-2);
+    color: var(--accent);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.outcome--error {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(209, 102, 95, 0.35);
+  background: rgba(209, 102, 95, 0.06);
+  color: var(--status-rejected);
+  font-size: 0.88rem;
+}
+
+.ledger--narrow {
+  display: none;
+}
+
+.ledger--wide {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+
+  thead th {
+    text-align: left;
+    font-size: 0.7rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    padding: 0 var(--space-3) var(--space-2);
+    border-bottom: 1px solid var(--hairline-strong);
+  }
+
+  td {
+    padding: var(--space-3);
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: middle;
+  }
+
+  .muted {
+    color: var(--text-tertiary);
+  }
+}
+
+.ledger__expand-col {
+  width: 1.5rem;
+  text-align: right;
+
+  app-icon {
+    color: var(--text-tertiary);
+    transition: transform 0.12s ease;
+    display: inline-flex;
+  }
+
+  app-icon.is-open {
+    transform: rotate(180deg);
+  }
+}
+
+.ledger__row {
+  cursor: pointer;
+  transition: background 0.1s ease;
+
+  &:hover {
+    background: var(--bg-raised);
+  }
+}
+
+.ledger__detail td {
+  background: var(--bg-sunken);
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+.detail-meta {
+  display: flex;
+  gap: var(--space-4);
+  font-size: 0.76rem;
+  color: var(--text-tertiary);
+  padding-bottom: var(--space-3);
+}
+
+// The PENDING countdown to auto-cancellation — muted until it's actually
+// urgent, then it borrows the rejected-status red rather than a new color.
+.countdown {
+  margin-left: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+
+  &--urgent {
+    color: var(--status-rejected);
+  }
+}
+
+.countdown-banner {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+
+  .mono {
+    color: var(--text-secondary);
+  }
+
+  &--urgent {
+    color: var(--status-rejected);
+    border-color: rgba(209, 102, 95, 0.35);
+    background: rgba(209, 102, 95, 0.06);
+
+    .mono {
+      color: var(--status-rejected);
+    }
+  }
+}
+
+.decide {
+  display: flex;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--hairline);
+}
+
+.decide__accept,
+.decide__reject {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: var(--radius-md);
+  padding: 0.45rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.decide__accept {
+  background: var(--accent);
+  color: #1a0f04;
+
+  &:hover:not(:disabled) {
+    background: var(--accent-strong);
+  }
+}
+
+.decide__reject {
+  background: transparent;
+  border-color: rgba(209, 102, 95, 0.4);
+  color: var(--status-rejected);
+
+  &:hover:not(:disabled) {
+    background: rgba(209, 102, 95, 0.1);
+  }
+}
+
+@media (max-width: 640px) {
+  .ledger--wide {
+    display: none;
+  }
+  .ledger--narrow {
+    display: block;
+  }
+}
+
+.row {
+  cursor: pointer;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.row__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  app-icon {
+    color: var(--text-tertiary);
+    transition: transform 0.12s ease;
+  }
+
+  app-icon.is-open {
+    transform: rotate(180deg);
+  }
+}
+
+.row__number {
+  font-size: 0.95rem;
+}
+
+.row__line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: var(--space-2);
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+
+  app-icon {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1px solid var(--hairline-strong);
+    color: var(--text-secondary);
+    border-radius: var(--radius-md);
+    padding: 0.45rem 0.9rem;
+    font-size: 0.82rem;
+
+    &:hover:not(:disabled) {
+      color: var(--text-primary);
+      border-color: var(--text-tertiary);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.pagination__status {
+  color: var(--text-tertiary);
+  font-size: 0.8rem;
+}
+
+.pagination__prev {
+  transform: scaleX(-1); // reuses the arrow-right glyph, pointed the other way
+}
+
+.row__detail {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--hairline);
+}

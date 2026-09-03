@@ -1,0 +1,115 @@
+.panel {
+  max-width: 30rem;
+}
+
+h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.lede {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-8);
+}
+
+.form {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.input {
+  flex: 1;
+  background: var(--bg-sunken);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-md);
+  padding: 0.65rem var(--space-4);
+  font-size: 1rem;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+
+  &::placeholder {
+    color: var(--text-tertiary);
+  }
+
+  &:focus {
+    border-color: var(--accent);
+  }
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--accent);
+  color: #1a0f04;
+  font-weight: 600;
+  font-size: 0.88rem;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background: var(--accent-strong);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.outcome--error {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(209, 102, 95, 0.35);
+  background: rgba(209, 102, 95, 0.06);
+  color: var(--status-rejected);
+  font-size: 0.88rem;
+}
+
+.result {
+  padding: var(--space-6);
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-md);
+}
+
+.result__number {
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: var(--space-4);
+}
+
+.result__operator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.result__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ghost);
+}
+
+.result__operator--ported {
+  color: var(--accent-strong);
+
+  .result__dot {
+    background: var(--accent);
+    box-shadow: 0 0 8px 1px var(--accent-glow);
+  }
+}
+
+.result__note {
+  margin-top: var(--space-3);
+  font-size: 0.84rem;
+  color: var(--text-tertiary);
+}
