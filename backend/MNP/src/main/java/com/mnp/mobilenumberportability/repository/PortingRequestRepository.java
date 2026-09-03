@@ -4,6 +4,8 @@ import com.mnp.mobilenumberportability.entity.MobileNumber;
 import com.mnp.mobilenumberportability.entity.Operator;
 import com.mnp.mobilenumberportability.entity.PortingRequest;
 import com.mnp.mobilenumberportability.entity.PortingRequestStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,14 +25,14 @@ public interface PortingRequestRepository extends JpaRepository<PortingRequest, 
 
     /**
      * A request is visible to an operator if it's the donor or recipient on it (any status),
-     * or if it has already been accepted (visible to everyone once settled).
+     * or if it has already been accepted (visible to everyone once settled). Paginated —
+     * the caller decides the page size (capped at 10 by the service layer).
      */
     @Query("""
             select pr from PortingRequest pr
             where pr.donorOperator = :operator
                or pr.recipientOperator = :operator
                or pr.status = com.mnp.mobilenumberportability.entity.PortingRequestStatus.ACCEPTED
-            order by pr.createdAt desc
             """)
-    List<PortingRequest> findVisibleTo(@Param("operator") Operator operator);
+    Page<PortingRequest> findVisibleTo(@Param("operator") Operator operator, Pageable pageable);
 }

@@ -1,0 +1,41 @@
+<section class="panel">
+  <h1>Number Lookup</h1>
+  <p class="lede">Check who currently holds a number, and whether it's ever been ported.</p>
+
+  <form class="form" (submit)="$event.preventDefault(); check()">
+    <input
+      class="input mono"
+      type="text"
+      inputmode="numeric"
+      placeholder="01XXXXXXXXX"
+      maxlength="11"
+      [value]="phoneNumber()"
+      (input)="onInput($any($event.target).value)"
+    />
+    <button class="check" type="submit" [disabled]="!isValid() || loading()">
+      <app-icon name="search" />
+      {{ loading() ? 'Checking…' : 'Check' }}
+    </button>
+  </form>
+
+  @if (errorMessage()) {
+    <div class="outcome outcome--error">{{ errorMessage() }}</div>
+  }
+
+  @if (result(); as number) {
+    <div class="result">
+      <span class="result__number mono">{{ number.phoneNumber }}</span>
+
+      <div class="result__operator" [class.result__operator--ported]="number.ported">
+        <span class="result__dot" aria-hidden="true"></span>
+        {{ number.currentOperator }}
+      </div>
+
+      @if (number.ported) {
+        <p class="result__note">Ported on {{ number.portedAt }}.</p>
+      } @else {
+        <p class="result__note">Still with its original operator — never ported.</p>
+      }
+    </div>
+  }
+</section>

@@ -1,20 +1,22 @@
 package com.mnp.mobilenumberportability.controller;
 
 import com.mnp.mobilenumberportability.dto.CreatePortingRequestRequest;
+import com.mnp.mobilenumberportability.dto.PageResponse;
 import com.mnp.mobilenumberportability.dto.PortingRequestResponse;
 import com.mnp.mobilenumberportability.entity.Operator;
 import com.mnp.mobilenumberportability.security.CurrentOperator;
 import com.mnp.mobilenumberportability.service.PortingRequestService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/porting-requests")
 @RequiredArgsConstructor
+@Validated
 public class PortingRequestController {
 
     private final PortingRequestService portingRequestService;
@@ -29,10 +31,12 @@ public class PortingRequestController {
     }
 
     // Donor/recipient see every request they're party to; everyone else only sees
-    // requests that have already been accepted.
+    // requests that have already been accepted. Paginated, 10 per page (see
+    // PortingRequestService.MAX_PAGE_SIZE) — `page` is 0-indexed.
     @GetMapping
-    public List<PortingRequestResponse> list(@CurrentOperator Operator operator) {
-        return portingRequestService.findVisibleTo(operator);
+    public PageResponse<PortingRequestResponse> list(@RequestParam(defaultValue = "0") @Min(0) int page,
+                                                       @CurrentOperator Operator operator) {
+        return portingRequestService.findVisibleTo(operator, page);
     }
 
     @PostMapping("/{id}/accept")

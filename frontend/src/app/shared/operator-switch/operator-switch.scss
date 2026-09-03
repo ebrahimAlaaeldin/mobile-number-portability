@@ -1,0 +1,57 @@
+.switch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.switch__caption {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.switch__ghosts {
+  display: flex;
+  gap: var(--space-1);
+  padding: 3px;
+  background: var(--bg-sunken);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+}
+
+.ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.12s ease;
+}
+
+.ghost__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ghost);
+  transition: none; // state changes snap, they never tween
+}
+
+.ghost:hover:not(.ghost--struck) {
+  color: var(--text-secondary);
+}
+
+.ghost--struck {
+  color: var(--accent-strong);
+  background: rgba(255, 154, 68, 0.1);
+
+  .ghost__dot {
+    background: var(--accent);
+    box-shadow: 0 0 8px 1px var(--accent-glow);
+  }
+}

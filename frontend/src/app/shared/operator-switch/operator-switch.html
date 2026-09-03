@@ -1,0 +1,18 @@
+<div class="switch" role="radiogroup" aria-label="Acting as operator">
+  <span class="switch__caption">Acting as</span>
+  <div class="switch__ghosts">
+    @for (operator of operatorService.operators; track operator.code) {
+      <button
+        type="button"
+        class="ghost"
+        [class.ghost--struck]="operatorService.active().code === operator.code"
+        role="radio"
+        [attr.aria-checked]="operatorService.active().code === operator.code"
+        (click)="operatorService.setActive(operator.code)"
+      >
+        <span class="ghost__dot" aria-hidden="true"></span>
+        {{ operator.name }}
+      </button>
+    }
+  </div>
+</div>

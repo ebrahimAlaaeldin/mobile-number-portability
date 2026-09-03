@@ -12,11 +12,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-/**
- * Resolves any {@code @CurrentOperator Operator} controller parameter by reading the
- * `organization` header and looking up the matching operator. This is the whole of the
- * "mocked auth" the spec asks for — no tokens, just trust the header.
- */
+
 @Component
 @RequiredArgsConstructor
 public class CurrentOperatorArgumentResolver implements HandlerMethodArgumentResolver {

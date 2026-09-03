@@ -39,5 +39,14 @@ services:
     ports:
       - "8080:8080"
 
+  frontend:
+    build: ../../frontend
+    container_name: mnp-frontend
+    restart: unless-stopped
+    ports:
+      # Published on 4200 to match the backend's CORS allowlist
+      # (WebConfig.addCorsMappings), whether served by `ng serve` or here.
+      - "4200:80"
+
 volumes:
   mnp-mysql-data:

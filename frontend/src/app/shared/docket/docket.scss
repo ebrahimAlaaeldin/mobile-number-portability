@@ -1,0 +1,123 @@
+// Three-row grid keyed to five columns (node / link / node / link / node) so
+// the role label, the connector dot, and the operator name for a given node
+// all land in the same column no matter how the label text wraps.
+.docket {
+  display: grid;
+  grid-template-columns: minmax(6rem, auto) minmax(2rem, 1fr) minmax(6rem, auto) minmax(2rem, 1fr) minmax(6rem, auto);
+  align-items: center;
+  row-gap: 0.35rem;
+  padding: var(--space-4) 0;
+}
+
+.role {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.name {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.dot {
+  justify-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ghost);
+}
+
+.segment {
+  height: 1px;
+  background: var(--hairline-strong);
+
+  &--active {
+    background: repeating-linear-gradient(90deg, var(--text-secondary) 0 4px, transparent 4px 8px);
+  }
+
+  &--accepted {
+    background: var(--accent);
+    box-shadow: 0 0 6px 0 var(--accent-glow);
+  }
+
+  &--rejected {
+    background: var(--status-rejected);
+  }
+}
+
+// System node states
+.dot--active {
+  background: var(--text-secondary);
+}
+
+.dot--ember {
+  background: var(--status-canceled);
+}
+
+// Donor node states
+.dot--accepted {
+  background: var(--accent);
+  box-shadow: 0 0 8px 1px var(--accent-glow);
+}
+
+.name--accepted {
+  color: var(--status-accepted);
+  text-shadow: 0 0 8px var(--status-accepted-glow);
+}
+
+.dot--rejected {
+  background: var(--status-rejected);
+}
+
+.name--rejected {
+  color: var(--status-rejected);
+}
+
+.name--waiting {
+  color: var(--text-tertiary);
+}
+
+// Accepted requests: the number has moved, so the handshake diagram gives way
+// to a two-node Donor → Recipient porting view — same role/dot/name rhythm,
+// green directional line with the arrowhead landing on the recipient.
+.ported {
+  display: grid;
+  grid-template-columns: minmax(6rem, auto) minmax(2rem, 1fr) minmax(6rem, auto);
+  align-items: center;
+  row-gap: 0.35rem;
+  padding: var(--space-4) 0;
+}
+
+.ported__line {
+  position: relative;
+  height: 2px;
+  background: var(--status-ported);
+  box-shadow: 0 0 6px 0 var(--status-ported-glow);
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left: 8px solid var(--status-ported);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    filter: drop-shadow(0 0 4px var(--status-ported-glow));
+  }
+}
+
+.dot--ported {
+  background: var(--status-ported);
+  box-shadow: 0 0 8px 1px var(--status-ported-glow);
+}
+
+.name--ported {
+  color: var(--status-ported);
+  text-shadow: 0 0 8px var(--status-ported-glow);
+}
