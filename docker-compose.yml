@@ -16,7 +16,7 @@ services:
     volumes:
       - mnp-mysql-data:/var/lib/mysql
       # Auto-run once against the `mnp` database on first container start.
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./backend/MNP/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot" ]
       interval: 5s
@@ -24,7 +24,7 @@ services:
       retries: 10
 
   app:
-    build: .
+    build: ./backend/MNP
     container_name: mnp-app
     restart: unless-stopped
     depends_on:
@@ -40,7 +40,7 @@ services:
       - "8080:8080"
 
   frontend:
-    build: ../../frontend
+    build: ./frontend
     container_name: mnp-frontend
     restart: unless-stopped
     ports:

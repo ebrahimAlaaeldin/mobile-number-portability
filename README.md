@@ -13,7 +13,7 @@ API + MySQL 8, all containerized.
 | `app`      | `mnp-app`      | `http://localhost:8080` | REST API under `/api`, WebSocket under `/ws`     |
 | `mysql`    | `mnp-mysql`    | `localhost:3307`      | Internal traffic stays on the compose network    |
 
-The compose file lives at `backend/MNP/docker-compose.yml`. The database schema
+The compose file lives at the repository root (`docker-compose.yml`). The database schema
 is owned by `backend/MNP/db/init.sql`, which runs once on first MySQL startup
 (data persists in the `mnp-mysql-data` volume afterwards). The backend waits for
 MySQL's healthcheck before starting, and validates entities against the schema
@@ -46,13 +46,12 @@ containers.
 From the repository root:
 
 ```bash
-cd backend/MNP
 docker compose up --build -d
 ```
 
 Then open `http://localhost:4200`.
 
-Useful commands (run from `backend/MNP`):
+Useful commands (run from the repository root):
 
 ```bash
 docker compose ps                    # service status
