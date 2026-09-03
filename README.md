@@ -22,6 +22,18 @@ MySQL's healthcheck before starting, and validates entities against the schema
 Auth is mocked: every request carries an `organization` header (`vodafone` /
 `orange` / `etisalat`). Use the "Acting as" switch in the UI header.
 
+## Screenshots
+
+![Requests list with statuses and open dates](docs/screenshots-requests-list.png)
+
+![Expanded pending request with live auto-cancel countdown and porting docket](docs/screenshots-requests-pending-countdown.png)
+
+![Submitting a porting request as the recipient operator](docs/screenshots-new-request-success.png)
+
+![Duplicate-request validation surfaced inline](docs/screenshots-new-request-duplicate-error.png)
+
+![Number status lookup showing current holder and port date](docs/screenshots-number-lookup.png)
+
 ## Prerequisites
 
 - Docker Engine 24+ with the Compose v2 plugin (`docker compose version`)
