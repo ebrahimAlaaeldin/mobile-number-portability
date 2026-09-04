@@ -1,5 +1,7 @@
 package com.mnp.mobilenumberportability.websocket;
 
+import com.mnp.mobilenumberportability.config.CorsProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
@@ -13,12 +15,17 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
  */
 @Configuration
 @EnableWebSocketMessageBroker
+@RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    private final CorsProperties corsProperties;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // Same allowed-origins list as the REST API (mnp.cors.allowed-origins) —
+        // see WebConfig for why this can no longer be a single hardcoded origin.
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:4200");
+                .setAllowedOriginPatterns(corsProperties.allowedOrigins().toArray(new String[0]));
     }
 
     @Override
