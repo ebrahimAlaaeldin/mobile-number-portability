@@ -14,6 +14,7 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     private final CurrentOperatorArgumentResolver currentOperatorArgumentResolver;
+    private final CorsProperties corsProperties;
 
     // Register the custom argument resolver for @CurrentOperator annotation
     // This allows Spring to inject the current operator into controller methods
@@ -22,13 +23,15 @@ public class WebConfig implements WebMvcConfigurer {
         resolvers.add(currentOperatorArgumentResolver);
     }
 
-    // The Angular app runs on its own origin (localhost:4200, whether via `ng serve`
-    // or the frontend container) while the API is on :8080 — the browser blocks that
-    // cross-origin call unless we explicitly allow it here.
+    // The Angular app runs on its own origin (localhost:4200 in dev, a Vercel
+    // domain in production) while the API is on its own host — the browser blocks
+    // that cross-origin call unless we explicitly allow it here. Origins come from
+    // CorsProperties (mnp.cors.allowed-origins) rather than being hardcoded, since
+    // frontend and backend are now deployed to separate platforms.
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:4200")
+                .allowedOriginPatterns(corsProperties.allowedOrigins().toArray(new String[0]))
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                 .allowedHeaders("*");
     }

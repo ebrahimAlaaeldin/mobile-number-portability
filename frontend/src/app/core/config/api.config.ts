@@ -1,7 +1,8 @@
-// Single deployment target, so no environment-file machinery: the backend is
-// always published on :8080, whether it's run via `mvn spring-boot:run`,
-// `docker compose up`, or the IDE — dev and the containerized frontend both
-// reach it at the same URL.
+// Dev default: the backend on localhost:8080, whether it's run via
+// `mvn spring-boot:run`, `docker compose up`, or the IDE. The production
+// build (Vercel) swaps this whole file for api.config.prod.ts via the
+// "production" fileReplacements entry in angular.json, since frontend and
+// backend now deploy to separate hosts (Vercel + Railway).
 export const API_BASE = 'http://localhost:8080/api';
 
 // STOMP-over-WebSocket endpoint registered in WebSocketConfig on the backend.
