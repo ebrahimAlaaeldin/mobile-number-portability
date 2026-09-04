@@ -22,6 +22,10 @@ MySQL's healthcheck before starting, and validates entities against the schema
 Auth is mocked: every request carries an `organization` header (`vodafone` /
 `orange` / `etisalat`). Use the "Acting as" switch in the UI header.
 
+## Live Demo
+
+Quick access to the deployed app: **https://frontend-one-phi-98.vercel.app**
+
 ## Screenshots
 
 ![Requests list with statuses and open dates](docs/screenshots-requests-list.png)
